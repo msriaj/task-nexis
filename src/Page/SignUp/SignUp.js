@@ -1,79 +1,150 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../../Components/Button/Button";
 import Input from "../../Components/Input/Input";
 
 const SignUp = () => {
   const [step, setStep] = useState(0);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = async (e) => {
+  const [inputData, setInputData] = useState({
+    first_name: "",
+    last_Name: "",
+    phone_number: "",
+    email: "",
+    password: "",
+  });
+
+  const submitFromToServer = async (e) => {
     e.preventDefault();
-    console.log(e);
+    setError("");
+    setInputData({
+      ...inputData,
+      password: e.target.password.value,
+    });
+    console.log(inputData);
+    const rawResponse = await fetch("https://test.nexisltd.com/signup", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inputData),
+    });
+    const content = await rawResponse.json();
+    const getError = await content.error;
+    if (getError) {
+      setError(getError);
+    }
+    const getSuccess = await content.sucess;
+    if (getSuccess) {
+      setSuccess(getSuccess);
+    }
+  };
+
+  const nameHandler = (e) => {
+    e.preventDefault();
+    setInputData({
+      ...inputData,
+      first_name: e.target.firstName.value,
+      last_Name: e.target.lastName.value,
+    });
+    setStep(step + 1);
+  };
+
+  const contactInfoHandler = (e) => {
+    e.preventDefault();
+    setInputData({
+      ...inputData,
+      phone_number: `+880${e.target.phoneNumber.value}`,
+      email: e.target.email.value,
+    });
+    setStep(step + 1);
   };
 
   return (
-    <div onSubmit={handleSubmit}>
+    <div>
       <h1 className="text-black text-center mb-12 text-2xl font-semibold">
         SignUp Form
       </h1>
       {step === 0 && (
-        <>
+        <form onSubmit={nameHandler}>
           <Input name="firstName" type="text" placeholder="Write First Name" />
-          <Input name="firstName" type="text" placeholder="Write Last Name" />
-        </>
-      )}
-      {step === 1 && (
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-4 gap-x-2">
-            <div className="col-span-1">
-              <Input name="countryCode" type="number" placeholder="+880" />
-            </div>
-            <div className="col-span-3">
-              <Input
-                name="phoneNumber"
-                type="number"
-                placeholder="1xxxxxxxxxxx"
-              />
-            </div>
-          </div>
-          <Input name="email" type="email" placeholder="Write Email Address" />
-        </form>
-      )}
-      {step === 2 && (
-        <>
-          <Input
-            name="password"
-            type="password"
-            placeholder="Write Password"
-            helpText="Your password must be 8 character"
-          />
-        </>
-      )}
-
-      <div className="text-center mt-10 relative">
-        {step !== 0 && (
-          <span
-            className=" absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
-            onClick={() => setStep(step - 1)}
-          >
-            back
-          </span>
-        )}
-        {step !== 2 && (
+          <Input name="lastName" type="text" placeholder="Write Last Name" />
           <button
-            onClick={() => setStep(step + 1)}
+            type="submit"
             className="bg-[#1678CB] text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
           >
             Next Step -
           </button>
-        )}
-        {step === 2 && (
-          <>
-            <Button title="Sign Up" type="submit" />
-          </>
-        )}
+        </form>
+      )}
+      {step === 1 && (
+        <form onSubmit={contactInfoHandler}>
+          <div className="grid grid-cols-4 gap-x-2">
+            <div className="col-span-1">
+              <Input
+                defaultValue="+880"
+                name="countryCode"
+                type="text"
+                placeholder="+880"
+              />
+            </div>
+            <div className="col-span-3">
+              <Input
+                name="phoneNumber"
+                type="text"
+                placeholder="1xxxxxxxxxxx"
+                pattern="(?=.*\d).{8,}"
+              />
+            </div>
+          </div>
+          <Input name="email" type="email" placeholder="Write Email Address" />
+          <div className="text-center mt-10 relative">
+            <span
+              className=" absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
+              onClick={() => setStep(step - 1)}
+            >
+              back
+            </span>
+            <button
+              type="submit"
+              className="bg-[#1678CB] text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
+            >
+              Next Step -
+            </button>
+          </div>
+        </form>
+      )}
+      {step === 2 && (
+        <form onSubmit={submitFromToServer}>
+          <Input
+            name="password"
+            type="password"
+            placeholder="Write Password"
+            helpText="Your password must be 8 character(only number)"
+            pattern="(?=.*\d).{8,}"
+          />
+          <div className="text-center mt-10 relative">
+            <span
+              className=" absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
+              onClick={() => setStep(step - 1)}
+            >
+              back
+            </span>
+            <button
+              type="submit"
+              className="bg-[#1678CB] text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
+      )}
+      <div className="text-center">
+        <p className="text-red-400"> {error}</p>
+        <p className="text-green-400">{success}</p>
       </div>
-
       <div className="pt-20 text-center">
         <p>
           <span className="text-xs text-[#7E7E7E]">

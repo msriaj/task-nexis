@@ -1,6 +1,14 @@
 import React from "react";
 
-const Input = ({ type, placeholder, helpText, name }) => {
+const Input = ({
+  type,
+  placeholder,
+  helpText,
+  name,
+  defaultValue,
+  minLength,
+  pattern,
+}) => {
   return (
     <div className="py-6">
       <input
@@ -8,6 +16,9 @@ const Input = ({ type, placeholder, helpText, name }) => {
         name={name}
         type={type}
         placeholder={placeholder}
+        defaultValue={defaultValue}
+        minLength={minLength}
+        pattern={pattern}
         required
       />
       <p className="text-[#7E7E7E] mt-2  px-5 text-xs">{helpText}</p>
