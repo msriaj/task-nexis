@@ -1,4 +1,5 @@
 import AuthLayout from "../Layout/AuthLayout";
+import Attendance from "../Page/Attendance/Attendance";
 import SignUp from "../Page/SignUp/SignUp";
 
 const { createBrowserRouter } = require("react-router-dom");
@@ -20,7 +21,7 @@ export const routes = createBrowserRouter([
     ],
   },
   {
-    path: "/table",
-    element: <Login />,
+    path: "/attendance",
+    element: <Attendance />,
   },
 ]);

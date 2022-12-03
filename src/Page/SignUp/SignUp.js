@@ -12,7 +12,7 @@ const SignUp = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div onSubmit={handleSubmit}>
       <h1 className="text-black text-center mb-12 text-2xl font-semibold">
         SignUp Form
       </h1>
@@ -23,7 +23,7 @@ const SignUp = () => {
         </>
       )}
       {step === 1 && (
-        <>
+        <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-4 gap-x-2">
             <div className="col-span-1">
               <Input name="countryCode" type="number" placeholder="+880" />
@@ -37,7 +37,7 @@ const SignUp = () => {
             </div>
           </div>
           <Input name="email" type="email" placeholder="Write Email Address" />
-        </>
+        </form>
       )}
       {step === 2 && (
         <>
@@ -84,7 +84,7 @@ const SignUp = () => {
           </Link>
         </p>
       </div>
-    </form>
+    </div>
   );
 };
 

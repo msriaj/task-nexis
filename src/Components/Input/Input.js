@@ -8,6 +8,7 @@ const Input = ({ type, placeholder, helpText, name }) => {
         name={name}
         type={type}
         placeholder={placeholder}
+        required
       />
       <p className="text-[#7E7E7E] mt-2  px-5 text-xs">{helpText}</p>
     </div>
