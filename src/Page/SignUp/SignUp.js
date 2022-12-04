@@ -120,6 +120,7 @@ const SignUp = () => {
                 defaultValue="+880"
                 name="countryCode"
                 type="text"
+                disabled={true}
                 placeholder="+880"
               />
             </div>

@@ -8,6 +8,7 @@ const Input = ({
   defaultValue,
   minLength,
   pattern,
+  disabled,
 }) => {
   return (
     <div className="py-6">
@@ -20,6 +21,7 @@ const Input = ({
         minLength={minLength}
         pattern={pattern}
         required
+        disabled={disabled}
       />
       <p className="text-[#7E7E7E] mt-2  px-5 text-xs">{helpText}</p>
     </div>
