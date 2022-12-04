@@ -6,6 +6,7 @@ const SignUp = () => {
   const [step, setStep] = useState(0);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [inputData, setInputData] = useState({
     first_name: "",
@@ -17,28 +18,34 @@ const SignUp = () => {
 
   const submitFromToServer = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
     setInputData({
       ...inputData,
       password: e.target.password.value,
     });
-    console.log(inputData);
+
     const rawResponse = await fetch("https://test.nexisltd.com/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(inputData),
+      body: JSON.stringify({
+        ...inputData,
+        phone_number: `+880${inputData.phone_number}`,
+      }),
     });
     const content = await rawResponse.json();
     const getError = await content.error;
     if (getError) {
       setError(getError);
+      setLoading(false);
     }
     const getSuccess = await content.sucess;
     if (getSuccess) {
       setSuccess(getSuccess);
+      setLoading(false);
     }
   };
 
@@ -56,7 +63,7 @@ const SignUp = () => {
     e.preventDefault();
     setInputData({
       ...inputData,
-      phone_number: `+880${e.target.phoneNumber.value}`,
+      phone_number: e.target.phoneNumber.value,
       email: e.target.email.value,
     });
     setStep(step + 1);
@@ -121,7 +128,7 @@ const SignUp = () => {
                 name="phoneNumber"
                 type="text"
                 placeholder="1xxxxxxxxxxx"
-                pattern="(?=.*\d).{8,}"
+                pattern="^(?=.*\d).{8,8}$"
                 defaultValue={inputData.phone_number}
               />
             </div>
@@ -134,7 +141,7 @@ const SignUp = () => {
           />
           <div className="text-center mt-10 relative flex justify-center">
             <span
-              className="absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
+              className="absolute left-0 md:left-3 top-3 font-bold cursor-pointer text-[#767676]"
               onClick={() => setStep(step - 1)}
             >
               back
@@ -169,11 +176,11 @@ const SignUp = () => {
             type="password"
             placeholder="Write Password"
             helpText="Your password must be 8 character(only number)"
-            pattern="(?=.*\d).{8,}"
+            pattern="^(?=.*\d).{8,8}$"
           />
           <div className="text-center mt-10 relative">
             <span
-              className=" absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
+              className=" absolute left-0 md:left-3 top-3 font-bold cursor-pointer text-[#767676]"
               onClick={() => setStep(step - 1)}
             >
               back
@@ -182,7 +189,7 @@ const SignUp = () => {
               type="submit"
               className="bg-[#1678CB] text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
             >
-              Sign Up
+              {loading ? "loading..." : "Sign Up"}
             </button>
           </div>
         </form>
