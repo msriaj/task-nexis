@@ -69,14 +69,40 @@ const SignUp = () => {
       </h1>
       {step === 0 && (
         <form onSubmit={nameHandler}>
-          <Input name="firstName" type="text" placeholder="Write First Name" />
-          <Input name="lastName" type="text" placeholder="Write Last Name" />
-          <button
-            type="submit"
-            className="bg-[#1678CB] text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
-          >
-            Next Step -
-          </button>
+          <Input
+            name="firstName"
+            type="text"
+            placeholder="Write First Name"
+            defaultValue={inputData.first_name}
+          />
+          <Input
+            name="lastName"
+            type="text"
+            placeholder="Write Last Name"
+            defaultValue={inputData.last_Name}
+          />
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="bg-[#1678CB] flex justify-center text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
+            >
+              Next Step{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </button>
+          </div>
         </form>
       )}
       {step === 1 && (
@@ -96,22 +122,42 @@ const SignUp = () => {
                 type="text"
                 placeholder="1xxxxxxxxxxx"
                 pattern="(?=.*\d).{8,}"
+                defaultValue={inputData.phone_number}
               />
             </div>
           </div>
-          <Input name="email" type="email" placeholder="Write Email Address" />
-          <div className="text-center mt-10 relative">
+          <Input
+            name="email"
+            type="email"
+            placeholder="Write Email Address"
+            defaultValue={inputData.email}
+          />
+          <div className="text-center mt-10 relative flex justify-center">
             <span
-              className=" absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
+              className="absolute left-3 top-3 font-bold cursor-pointer text-[#767676]"
               onClick={() => setStep(step - 1)}
             >
               back
             </span>
             <button
               type="submit"
-              className="bg-[#1678CB] text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
+              className="bg-[#1678CB] flex text-base border border-[#1678CB] hover:bg-white hover:text-[#1678CB] text-white px-[28px] py-[15px] cursor-pointer rounded-[15px]"
             >
-              Next Step -
+              Next Step{" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </svg>
             </button>
           </div>
         </form>
